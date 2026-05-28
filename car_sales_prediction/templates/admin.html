@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Car Price Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/admin">
+                <i class="fas fa-crown"></i> Admin Panel
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h1 class="dashboard-title"><i class="fas fa-crown"></i> Admin Dashboard</h1>
+                    <p class="text-muted">Manage users, predictions, and system statistics</p>
+                </div>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
+
+            <!-- Statistics -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card card bg-primary text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="small mb-1">Total Users</p>
+                                    <h3 class="mb-0">{{ user_count }}</h3>
+                                </div>
+                                <i class="fas fa-users stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="small mb-1">Total Predictions</p>
+                                    <h3 class="mb-0">{{ prediction_count }}</h3>
+                                </div>
+                                <i class="fas fa-chart-bar stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="small mb-1">Average Price</p>
+                                    <h3 class="mb-0">₹{{ "%.0f"|format(avg_price) }}</h3>
+                                </div>
+                                <i class="fas fa-rupee-sign stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card card bg-warning text-dark">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="small mb-1">Avg Per User</p>
+                                    <h3 class="mb-0">{{ "%.1f"|format(prediction_count / (user_count or 1)) }}</h3>
+                                </div>
+                                <i class="fas fa-chart-line stat-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs for Users and Predictions -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button">
+                        <i class="fas fa-users"></i> Users
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="predictions-tab" data-bs-toggle="tab" data-bs-target="#predictions" type="button">
+                        <i class="fas fa-history"></i> Predictions
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Users Tab -->
+                <div class="tab-pane fade show active" id="users">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-users"></i> All Users</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if users %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Registered Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in users %}
+                                        <tr id="user-{{ user['id'] }}">
+                                            <td><strong>{{ loop.index }}</strong></td>
+                                            <td>{{ user['username'] }}</td>
+                                            <td>{{ user['email'] }}</td>
+                                            <td><small>{{ user['created_at'].strftime('%d-%m-%Y') }}</small></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-danger" onclick="deleteUser({{ user['id'] }})">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center py-5">
+                                <p class="text-muted">No users registered yet</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Predictions Tab -->
+                <div class="tab-pane fade" id="predictions">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-history"></i> All Predictions</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if predictions %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>User</th>
+                                            <th>Car Name</th>
+                                            <th>Year</th>
+                                            <th>Present Price</th>
+                                            <th>Predicted Price</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for prediction in predictions %}
+                                        <tr id="pred-{{ prediction['id'] }}">
+                                            <td><strong>{{ loop.index }}</strong></td>
+                                            <td>{{ prediction['username'] }}</td>
+                                            <td>{{ prediction['car_name'] }}</td>
+                                            <td>{{ prediction['year'] }}</td>
+                                            <td>₹{{ "%.2f"|format(prediction['present_price']) }} L</td>
+                                            <td><strong class="text-success">₹{{ "%.2f"|format(prediction['predicted_price']) }} L</strong></td>
+                                            <td><small>{{ prediction['created_at'].strftime('%d-%m-%Y %H:%M') }}</small></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-danger" onclick="deletePrediction({{ prediction['id'] }})">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center py-5">
+                                <p class="text-muted">No predictions yet</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 Car Sales Price Prediction System - Admin Panel</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function deleteUser(userId) {
+            if (confirm('Are you sure you want to delete this user and all their predictions?')) {
+                fetch(`/admin/delete_user/${userId}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'}
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById(`user-${userId}`).remove();
+                        alert('User deleted successfully');
+                    } else {
+                        alert('Error deleting user');
+                    }
+                });
+            }
+        }
+
+        function deletePrediction(predictionId) {
+            if (confirm('Are you sure you want to delete this prediction?')) {
+                fetch(`/admin/delete_prediction/${predictionId}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'}
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById(`pred-${predictionId}`).remove();
+                        alert('Prediction deleted successfully');
+                    } else {
+                        alert('Error deleting prediction');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

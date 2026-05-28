@@ -1,0 +1,51 @@
+Car_Name,Year,Selling_Price,Present_Price,Kms_Driven,Fuel_Type,Seller_Type,Transmission,Owner
+Maruti 800,2016,3.5,5.5,72000,Petrol,Dealer,Manual,1
+Maruti 800,2015,4.5,6.5,65000,Petrol,Dealer,Manual,1
+Maruti Wagon R,2017,7.5,9.5,45000,Petrol,Dealer,Manual,1
+Maruti Wagon R,2016,6.8,8.8,50000,Petrol,Individual,Manual,1
+Maruti Wagon R,2015,6.0,7.5,62000,Petrol,Individual,Manual,2
+Hyundai i20,2018,8.5,10.5,40000,Petrol,Dealer,Manual,1
+Hyundai i20,2017,7.8,9.5,52000,Petrol,Individual,Manual,1
+Hyundai i20,2016,7.0,8.5,65000,Petrol,Individual,Automatic,1
+Tata Nexon,2018,9.5,11.5,35000,Diesel,Dealer,Manual,1
+Tata Nexon,2017,8.8,10.5,48000,Diesel,Individual,Manual,1
+Honda City,2018,10.5,12.5,30000,Petrol,Dealer,Manual,1
+Honda City,2017,9.8,11.5,42000,Petrol,Individual,Automatic,1
+Mahindra XUV500,2018,15.5,18.5,25000,Diesel,Dealer,Automatic,1
+Mahindra XUV500,2017,14.0,16.5,38000,Diesel,Individual,Automatic,2
+Toyota Innova,2018,20.0,23.0,28000,Diesel,Dealer,Manual,1
+Toyota Innova,2017,18.5,21.0,35000,Diesel,Individual,Manual,1
+Maruti Swift,2018,7.5,9.0,35000,Petrol,Dealer,Manual,1
+Maruti Swift,2017,6.8,8.5,45000,Petrol,Individual,Manual,1
+Maruti Swift,2016,6.0,7.5,60000,Petrol,Individual,Manual,2
+Hyundai Creta,2018,12.5,14.5,32000,Diesel,Dealer,Manual,1
+Hyundai Creta,2017,11.5,13.5,45000,Diesel,Individual,Automatic,1
+Mahindra Scorpio,2018,16.5,19.0,28000,Diesel,Dealer,Manual,1
+Mahindra Scorpio,2017,15.0,17.5,40000,Diesel,Individual,Manual,1
+Ford EcoSport,2018,11.5,13.5,30000,Diesel,Dealer,Manual,1
+Ford EcoSport,2017,10.5,12.5,42000,Diesel,Individual,Automatic,1
+Skoda Rapid,2018,13.5,15.5,25000,Diesel,Dealer,Automatic,1
+Skoda Rapid,2017,12.5,14.5,38000,Diesel,Individual,Automatic,1
+Volkswagen Vento,2018,12.0,14.0,28000,Petrol,Dealer,Manual,1
+Volkswagen Vento,2017,11.0,13.0,40000,Petrol,Individual,Automatic,1
+Renault Kwid,2018,6.5,8.0,38000,Petrol,Dealer,Manual,1
+Renault Kwid,2017,5.8,7.0,50000,Petrol,Individual,Manual,1
+Datsun GO,2018,5.5,6.8,42000,Petrol,Dealer,Manual,1
+Datsun GO,2017,4.8,6.0,55000,Petrol,Individual,Manual,2
+Toyota Fortuner,2018,35.0,38.0,12000,Diesel,Dealer,Manual,1
+Toyota Fortuner,2017,33.0,36.0,22000,Diesel,Individual,Automatic,1
+Mahindra Bolero,2018,8.5,10.5,40000,Diesel,Dealer,Manual,1
+Mahindra Bolero,2017,7.8,9.5,52000,Diesel,Individual,Manual,1
+Maruti Vitara Brezza,2018,9.5,11.5,35000,Diesel,Dealer,Manual,1
+Maruti Vitara Brezza,2017,8.8,10.5,48000,Diesel,Individual,Manual,1
+Honda BR-V,2018,11.5,13.5,32000,Petrol,Dealer,Manual,1
+Honda BR-V,2017,10.5,12.5,45000,Petrol,Individual,Automatic,1
+Tata Harrier,2018,18.5,21.0,18000,Diesel,Dealer,Automatic,1
+Tata Harrier,2017,17.0,19.5,30000,Diesel,Individual,Automatic,1
+Kia Seltos,2019,12.5,14.5,25000,Diesel,Dealer,Automatic,1
+Kia Seltos,2018,11.5,13.5,38000,Diesel,Individual,Automatic,1
+Maruti Ertiga,2018,8.5,10.5,38000,Petrol,Dealer,Manual,1
+Maruti Ertiga,2017,7.8,9.5,50000,Petrol,Individual,Manual,1
+Hyundai Venue,2019,8.0,9.5,28000,Petrol,Dealer,Manual,1
+Hyundai Venue,2018,7.2,8.8,40000,Petrol,Individual,Automatic,1
+Nissan Magnite,2019,7.5,9.0,22000,Petrol,Dealer,Manual,1

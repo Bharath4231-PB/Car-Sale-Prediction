@@ -1,0 +1,788 @@
+/* ===============================================
+   CAR SALES PRICE PREDICTION SYSTEM - CSS
+   =============================================== */
+
+:root {
+    --primary-color: #0d47a1;
+    --secondary-color: #1565c0;
+    --success-color: #2e7d32;
+    --danger-color: #c62828;
+    --warning-color: #f57f17;
+    --info-color: #01579b;
+    --light-bg: #eaf2fb;
+    --dark-bg: #1a1a1a;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-bg);
+}
+
+/* Subtle decorative background images */
+body {
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    pointer-events: none;
+    opacity: 0.08;
+    z-index: 0;
+}
+
+body::before {
+    right: -5%;
+    bottom: -5%;
+    width: 55vw;
+    height: 55vh;
+    background-image: url('/static/images/car-bg.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right bottom;
+}
+
+body::after {
+    left: -5%;
+    top: -5%;
+    width: 45vw;
+    height: 45vh;
+    background-image: url('/static/images/trading-bg.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: left top;
+}
+
+/* Ensure main content sits above decorative images */
+.container, .container-fluid, .card, .auth-form-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===============================================
+   TYPOGRAPHY & GENERAL STYLES
+   =============================================== */
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-fluid {
+    flex: 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 2px;
+}
+
+.btn-link-custom {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-link-custom:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* ===============================================
+   NAVBAR STYLING
+   =============================================== */
+
+.navbar-dark {
+    background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: white !important;
+    transition: var(--transition);
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.navbar-brand i {
+    margin-right: 0.5rem;
+    color: #4fc3f7;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    transition: var(--transition);
+    margin: 0 0.5rem;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: white !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* ===============================================
+   HOME PAGE STYLES
+   =============================================== */
+
+.home-page {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.1) 10px, rgba(255, 255, 255, 0.1) 20px);
+    pointer-events: none;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: slideInDown 0.8s ease;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    animation: slideInUp 0.8s ease;
+}
+
+.hero-buttons {
+    animation: fadeIn 1s ease 0.3s both;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===============================================
+   FEATURE CARDS
+   =============================================== */
+
+.features-section {
+    background-color: var(--light-bg);
+}
+
+.feature-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    border-top: 4px solid var(--primary-color);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.feature-card h5 {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* ===============================================
+   STEP CARDS
+   =============================================== */
+
+.step-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    position: relative;
+    padding-left: 80px;
+}
+
+.step-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.step-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.step-card h5 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* ===============================================
+   STATS SECTION
+   =============================================== */
+
+.stats-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4fc3f7;
+    margin-bottom: 0.5rem;
+}
+
+/* ===============================================
+   AUTH PAGES
+   =============================================== */
+
+.auth-page {
+    background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+    min-height: 100vh;
+}
+
+.auth-form-container {
+    background: white;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+}
+
+.auth-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+.auth-title {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: var(--transition);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 71, 161, 0.1);
+}
+
+.form-label {
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+/* ===============================================
+   BUTTONS
+   =============================================== */
+
+.btn {
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, #0b3386, #1251a7);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 71, 161, 0.3);
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-color), #43a047);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #1b5e20, #2e7d32);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger-color), #e53935);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #b71c1c, #c62828);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #616161, #757575);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #424242, #616161);
+    color: white;
+}
+
+.btn-info {
+    background: linear-gradient(135deg, var(--info-color), #0277bd);
+    color: white;
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #01579b, #0277bd);
+    color: white;
+}
+
+.btn-lg {
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* ===============================================
+   CARDS & CONTAINERS
+   =============================================== */
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    color: white !important;
+    border: none;
+    border-radius: 12px 12px 0 0;
+    padding: 1.5rem;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* ===============================================
+   STAT CARDS
+   =============================================== */
+
+.stat-card {
+    border: none;
+    border-radius: 12px;
+    border-left: 5px solid var(--primary-color);
+    transition: var(--transition);
+    margin-bottom: 1rem;
+}
+
+.stat-card.bg-primary {
+    border-left-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+}
+
+.stat-card.bg-success {
+    border-left-color: var(--success-color);
+    background: linear-gradient(135deg, var(--success-color), #43a047) !important;
+}
+
+.stat-card.bg-info {
+    border-left-color: var(--info-color);
+    background: linear-gradient(135deg, var(--info-color), #0277bd) !important;
+}
+
+.stat-card.bg-warning {
+    border-left-color: var(--warning-color);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    opacity: 0.7;
+}
+
+/* ===============================================
+   TABLES
+   =============================================== */
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background-color: var(--light-bg);
+    color: #1a1a1a;
+    font-weight: 600;
+    border-bottom: 2px solid #dee2e6;
+    padding: 1rem;
+}
+
+.table tbody tr {
+    transition: var(--transition);
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+    background-color: #f5f7fa;
+}
+
+.badge {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* ===============================================
+   PREDICTION FORM
+   =============================================== */
+
+.prediction-result-card {
+    background: linear-gradient(135deg, #f5f7fa, #e8eef7);
+}
+
+.prediction-result-card .card-header {
+    background: linear-gradient(135deg, var(--success-color), #43a047) !important;
+}
+
+/* ===============================================
+   QUICK LINKS
+   =============================================== */
+
+.quick-link-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    position: relative;
+    text-align: center;
+}
+
+.quick-link-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.quick-link-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.quick-link-card h6 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.quick-link-card p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* ===============================================
+   EMPTY STATE
+   =============================================== */
+
+.empty-icon {
+    font-size: 4rem;
+    color: #ccc;
+    opacity: 0.5;
+}
+
+.info-icon {
+    font-size: 3rem;
+    color: #90caf9;
+    opacity: 0.7;
+}
+
+/* ===============================================
+   ALERTS
+   =============================================== */
+
+.alert {
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+    background-color: #ffebee;
+    color: #c62828;
+    border-left: 4px solid #c62828;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    color: #01579b;
+    border-left: 4px solid #01579b;
+}
+
+.alert-warning {
+    background-color: #fff3e0;
+    color: #f57f17;
+    border-left: 4px solid #f57f17;
+}
+
+/* ===============================================
+   FOOTER
+   =============================================== */
+
+footer {
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    color: white;
+    margin-top: auto;
+    padding: 2rem 0;
+    border-top: 2px solid var(--primary-color);
+}
+
+footer p {
+    margin: 0;
+}
+
+.text-muted {
+    color: #999 !important;
+}
+
+/* ===============================================
+   MIN HEIGHT UTILITIES
+   =============================================== */
+
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+/* ===============================================
+   RESPONSIVE DESIGN
+   =============================================== */
+
+@media (max-width: 768px) {
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .auth-form-container {
+        padding: 2rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .feature-card {
+        margin-bottom: 1rem;
+    }
+
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .nav-item {
+        margin: 0.5rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-title {
+        font-size: 1.3rem;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .auth-form-container {
+        padding: 1.5rem;
+    }
+
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+
+    .step-card {
+        padding: 1.5rem;
+        padding-left: 70px;
+    }
+
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+}
+
+/* ===============================================
+   ANIMATIONS
+   =============================================== */
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+.animate-slide {
+    animation: slide-in 0.5s ease;
+}
+
+/* ===============================================
+   SCROLLBAR STYLING
+   =============================================== */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}

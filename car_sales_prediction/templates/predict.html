@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Price - Car Price Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/dashboard">
+                <i class="fas fa-car"></i> Car Price Predictor
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/predict">Predict Price</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/history">History</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> User
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h1 class="dashboard-title"><i class="fas fa-magic"></i> Predict Car Selling Price</h1>
+                    <p class="text-muted">Enter your car details and get an instant price prediction</p>
+                </div>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
+
+            <div class="row">
+                <!-- Prediction Form -->
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-car"></i> Car Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" class="needs-validation" novalidate>
+                                <div class="mb-3">
+                                    <label for="car_name" class="form-label">Car Name</label>
+                                    <select class="form-select" id="car_name" name="car_name" required>
+                                        <option value="">Select a car</option>
+                                        <option value="Maruti 800">Maruti 800</option>
+                                        <option value="Maruti Wagon R">Maruti Wagon R</option>
+                                        <option value="Hyundai i20">Hyundai i20</option>
+                                        <option value="Tata Nexon">Tata Nexon</option>
+                                        <option value="Honda City">Honda City</option>
+                                        <option value="Mahindra XUV500">Mahindra XUV500</option>
+                                        <option value="Toyota Innova">Toyota Innova</option>
+                                        <option value="Maruti Swift">Maruti Swift</option>
+                                        <option value="Hyundai Creta">Hyundai Creta</option>
+                                        <option value="Mahindra Scorpio">Mahindra Scorpio</option>
+                                        <option value="Ford EcoSport">Ford EcoSport</option>
+                                        <option value="Skoda Rapid">Skoda Rapid</option>
+                                        <option value="Volkswagen Vento">Volkswagen Vento</option>
+                                        <option value="Renault Kwid">Renault Kwid</option>
+                                        <option value="Datsun GO">Datsun GO</option>
+                                        <option value="Toyota Fortuner">Toyota Fortuner</option>
+                                        <option value="Mahindra Bolero">Mahindra Bolero</option>
+                                        <option value="Maruti Vitara Brezza">Maruti Vitara Brezza</option>
+                                        <option value="Honda BR-V">Honda BR-V</option>
+                                        <option value="Tata Harrier">Tata Harrier</option>
+                                        <option value="Kia Seltos">Kia Seltos</option>
+                                        <option value="Maruti Ertiga">Maruti Ertiga</option>
+                                        <option value="Hyundai Venue">Hyundai Venue</option>
+                                        <option value="Nissan Magnite">Nissan Magnite</option>
+                                    </select>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="year" class="form-label">Year</label>
+                                        <input type="number" class="form-control" id="year" name="year" min="2000" max="2024" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="present_price" class="form-label">Present Price (in Lakhs)</label>
+                                        <input type="number" class="form-control" id="present_price" name="present_price" step="0.01" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="kms_driven" class="form-label">KMs Driven</label>
+                                        <input type="number" class="form-control" id="kms_driven" name="kms_driven" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="owner" class="form-label">Owner Count</label>
+                                        <select class="form-select" id="owner" name="owner" required>
+                                            <option value="">Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4+</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fuel_type" class="form-label">Fuel Type</label>
+                                        <select class="form-select" id="fuel_type" name="fuel_type" required>
+                                            <option value="">Select</option>
+                                            <option value="Petrol">Petrol</option>
+                                            <option value="Diesel">Diesel</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="seller_type" class="form-label">Seller Type</label>
+                                        <select class="form-select" id="seller_type" name="seller_type" required>
+                                            <option value="">Select</option>
+                                            <option value="Dealer">Dealer</option>
+                                            <option value="Individual">Individual</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="transmission" class="form-label">Transmission</label>
+                                    <select class="form-select" id="transmission" name="transmission" required>
+                                        <option value="">Select</option>
+                                        <option value="Manual">Manual</option>
+                                        <option value="Automatic">Automatic</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 btn-lg">
+                                    <i class="fas fa-magic"></i> Predict Price
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result Section -->
+                <div class="col-lg-6">
+                    {% if prediction_result %}
+                    <div class="card prediction-result-card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="fas fa-star"></i> Prediction Result</h5>
+                        </div>
+                        <div class="card-body text-center py-5">
+                            <h6 class="text-muted">{{ prediction_result.car_name }}</h6>
+                            <h3 class="mb-0 mt-2 fw-bold">₹{{ prediction_result.predicted_price }} Lakhs</h3>
+                            <p class="text-muted small mt-2">Estimated Selling Price</p>
+                            
+                            <hr>
+
+                            <div class="row mt-4">
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Present Price</small>
+                                    <h5 class="text-info">₹{{ prediction_result.present_price }} L</h5>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Predicted Price</small>
+                                    <h5 class="text-success">₹{{ prediction_result.predicted_price }} L</h5>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-info mt-4">
+                                <strong>Difference:</strong> 
+                                {% if prediction_result.difference > 0 %}
+                                    <span class="text-success"><i class="fas fa-arrow-up"></i> +₹{{ prediction_result.difference }} L</span>
+                                {% else %}
+                                    <span class="text-danger"><i class="fas fa-arrow-down"></i> ₹{{ prediction_result.difference }} L</span>
+                                {% endif %}
+                            </div>
+
+                            <p class="text-muted small mt-4">✓ Prediction saved to your history</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="card">
+                        <div class="card-body text-center py-5">
+                            <i class="fas fa-info-circle info-icon mb-3"></i>
+                            <h6 class="text-muted">No Prediction Yet</h6>
+                            <p class="text-muted small">Fill in the car details and click "Predict Price" to get started</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 Car Sales Price Prediction System</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
